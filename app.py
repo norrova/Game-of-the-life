@@ -1,17 +1,7 @@
 import random, os
 
 #region Level 1
-def init(size_map):
-    """
-    Description :   
-        Initialiser des cellules vivantes aléatoirement
-
-    Paramètre : 
-        Entier : size_map : Taille maximale de la grille
-
-    Retour :
-        Liste : cell_alive : Liste contenant des cellules vivantes
-    """
+def initialization(size_map):
     cell_alive = []
     for index_x in range(size_map):
         for index_y in range(size_map):
@@ -21,15 +11,6 @@ def init(size_map):
     return cell_alive
 
 def evolution(cell_alive, game_setting):
-    """
-    Description : 
-        Permets de faire évoluer une génération contenant des cellules vivantes à une génération n+1
-    Paramètre : 
-        Entier : size_map : Taille maximale de la grille
-
-    Retour :
-        Liste : cell_alive : Liste contenant des cellules vivantes
-    """
     new_cell_alive = []
     for cell in cell_alive:
         for new_cell in get_next_generation(cell, cell_alive, new_cell_alive, game_setting):
@@ -39,15 +20,6 @@ def evolution(cell_alive, game_setting):
     evolution(new_cell_alive, game_setting)
 
 def show_map(cell_alive, gen, size_map):
-    """
-    Description : 
-        Afficher les cellules vivantes et mortes dans une grille de taille uniforme
-
-    Paramètre : 
-        Liste : cell_alive : Liste contenant des cellules vivantes
-        Entier : gen : numéro de la génération actuelle
-        Entier : size_map : Taille maximale de la grille
-    """
     os.system('clear')
     for index_x in range(size_map):
         for index_y in range(size_map):
@@ -64,18 +36,6 @@ def show_map(cell_alive, gen, size_map):
 #region Niveau 2
 
 def get_next_generation(cell, cell_alive, new_cell_alive, game_setting):
-    """
-    Description : 
-        Récupérer les cellules vivantes et naissantes alentour à partir d'une cellule
-
-    Paramètre : 
-        Tableau : cell
-        Liste : cell_alive : Liste contenant des cellules vivantes
-        Liste : new_cell_alive :  Liste contenant des cellules vivantes n+1
-        Dictionnaire : game_setting : information sur la configuration du jeu
-    Retour : 
-        Liste : tmp_cells :  Liste contenant les futurs cellules
-    """
     tmp_cells = []
     for tmp_cell in  get_around_cell(cell, game_setting["size_map"]):
         if (False == (tmp_cell in new_cell_alive)):
@@ -91,16 +51,6 @@ def get_next_generation(cell, cell_alive, new_cell_alive, game_setting):
 #region Niveau 3
 
 def get_around_cell(cell, size_map):
-    """
-    Description : 
-        Récupérer les cellules alentour à partir d'une cellule
-
-    Paramètre : 
-        Tableau : cell
-        Entier : size_map : Taille maximale de la grille
-    Retour : 
-        Liste : tmp_cells : 
-    """
     x = cell[0]
     y = cell[1]
     position_x = [ x-1, x, x+1]
@@ -114,17 +64,6 @@ def get_around_cell(cell, size_map):
         
 
 def get_neighbor(cell, cell_alive, game_setting):
-    """
-    Description : 
-        Permets de savoir le nombre de voisins alentour
-
-    Paramètre : 
-        Tableau : cell
-        Liste : cell_alive : Liste contenant des cellules vivantes
-        Dictionnaire : game_setting : information sur la configuration du jeu
-    Retour :    
-        Entier : neighbor : nombre de voisins d'une cellule 
-    """
     neighbor = 0
     for tmp_cell in get_around_cell(cell, game_setting["size_map"]):
         if (cell != tmp_cell and True == (tmp_cell in cell_alive)):
@@ -132,17 +71,6 @@ def get_neighbor(cell, cell_alive, game_setting):
     return neighbor
 
 def can_alive(neighbor, rules, alive):
-    """
-    Description : 
-        Permets de déterminer si une cellule peut vivre ou mourir
-
-    Paramètre : 
-        Tableau : cell
-        Liste : cell_alive : Liste contenant des cellules vivantes
-        Dictionnaire : game_setting : information sur la configuration du jeu
-    Retour : 
-        Booleen : alive : retourne true si la cellule peut vivre
-    """
     numbers = rules['alive'] if alive else rules['birth']
     index = 0
     alive = False
@@ -165,7 +93,7 @@ if __name__ == "__main__":
         },
         "generation" : 1
     }
-    cell_alive = init(game_setting["size_map"])
+    cell_alive = initialization(game_setting["size_map"])
     show_map(cell_alive, game_setting["generation"], game_setting["size_map"])
     evolution(cell_alive, game_setting)
 
