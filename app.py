@@ -2,28 +2,28 @@ import random, os
 
 #region Level 1
 def initialization(size_map):
-    cell_alive = []
+    cells_alive = []
     for index_x in range(size_map):
         for index_y in range(size_map):
             cursor = random.randrange(0, 100)
             if ( cursor >=  random.randrange(0, 100)):
-                cell_alive.append([index_x, index_y])
-    return cell_alive
+                cells_alive.append([index_x, index_y])
+    return cells_alive
 
-def evolution(cell_alive, game_setting):
-    new_cell_alive = []
-    for cell in cell_alive:
-        for new_cell in get_next_generation(cell, cell_alive, new_cell_alive, game_setting):
-            new_cell_alive.append(new_cell)
+def evolution(cells_alive, game_setting):
+    new_cells_alive = []
+    for cell in cells_alive:
+        for new_cell in get_next_generation(cell, cells_alive, new_cells_alive, game_setting):
+            new_cells_alive.append(new_cell)
     game_setting["generation"]+=1
-    show_map(cell_alive, game_setting["generation"], game_setting["size_map"])
-    evolution(new_cell_alive, game_setting)
+    show_map(cells_alive, game_setting["generation"], game_setting["size_map"])
+    evolution(new_cells_alive, game_setting)
 
-def show_map(cell_alive, gen, size_map):
+def show_map(cells_alive, gen, size_map):
     os.system('clear')
     for index_x in range(size_map):
         for index_y in range(size_map):
-            state = '\033[92m□' if [index_x, index_y] in cell_alive else '\033[91mx'
+            state = '\033[92m□' if [index_x, index_y] in cells_alive else '\033[91mx'
             print(state + "\033[0m ", end = '')
         print("")
     try:
@@ -35,17 +35,17 @@ def show_map(cell_alive, gen, size_map):
 
 #region Niveau 2
 
-def get_next_generation(cell, cell_alive, new_cell_alive, game_setting):
-    tmp_cells = []
-    for tmp_cell in  get_around_cell(cell, game_setting["size_map"]):
-        if (False == (tmp_cell in new_cell_alive)):
+def get_next_generation(cell, cells_alive, new_cells_alive, game_setting):
+    cells_new_gen = []
+    for cell_new_gen in  get_around_cell(cell, game_setting["size_map"]):
+        if (False == (cell_new_gen in new_cells_alive)):
             # Vérifier nombre de voisins en vie
-            neighbor = get_neighbor(tmp_cell, cell_alive, game_setting)
+            neighbor = get_neighbor(cell_new_gen, cells_alive, game_setting)
             # Vérifier règles
-            alive = can_alive(neighbor, game_setting["rules"], (tmp_cell in cell_alive))
+            alive = can_alive(neighbor, game_setting["rules"], (cell_new_gen in cells_alive))
             if (alive):
-                tmp_cells.append(tmp_cell)
-    return tmp_cells
+                cells_new_gen.append(cell_new_gen)
+    return cells_new_gen
 #endregion
 
 #region Niveau 3
@@ -55,18 +55,18 @@ def get_around_cell(cell, size_map):
     y = cell[1]
     position_x = [ x-1, x, x+1]
     position_y = [ y-1, y, y+1]
-    tmp_cells = []
+    cells_around = []
     for x in position_x:
         for y in position_y:
             if(x >= 0 and x < size_map and y >= 0 and y < size_map):
-                tmp_cells.append([x, y])
-    return tmp_cells
+                cells_around.append([x, y])
+    return cells_around
         
 
-def get_neighbor(cell, cell_alive, game_setting):
+def get_neighbor(cell, cells_alive, game_setting):
     neighbor = 0
     for tmp_cell in get_around_cell(cell, game_setting["size_map"]):
-        if (cell != tmp_cell and True == (tmp_cell in cell_alive)):
+        if (cell != tmp_cell and True == (tmp_cell in cells_alive)):
             neighbor+=1
     return neighbor
 
@@ -93,8 +93,8 @@ if __name__ == "__main__":
         },
         "generation" : 1
     }
-    cell_alive = initialization(game_setting["size_map"])
-    show_map(cell_alive, game_setting["generation"], game_setting["size_map"])
-    evolution(cell_alive, game_setting)
+    cells_alive = initialization(game_setting["size_map"])
+    show_map(cells_alive, game_setting["generation"], game_setting["size_map"])
+    evolution(cells_alive, game_setting)
 
 #endregion
