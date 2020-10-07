@@ -37,10 +37,10 @@ def show_map(cells_alive, gen, size_map):
 
 def get_next_generation(cell, cells_alive, new_cells_alive, game_setting):
     cells_new_gen = []
-    for cell_new_gen in  get_around_cell(cell, game_setting["size_map"]):
+    for cell_new_gen in  get_around_cells(cell, game_setting["size_map"]):
         if (False == (cell_new_gen in new_cells_alive)):
             # Vérifier nombre de voisins en vie
-            neighbor = get_neighbor(cell_new_gen, cells_alive, game_setting)
+            neighbor = get_neighbor(cell_new_gen, cells_alive, game_setting["size_map"])
             # Vérifier règles
             alive = can_alive(neighbor, game_setting["rules"], (cell_new_gen in cells_alive))
             if (alive):
@@ -50,22 +50,22 @@ def get_next_generation(cell, cells_alive, new_cells_alive, game_setting):
 
 #region Niveau 3
 
-def get_around_cell(cell, size_map):
-    x = cell[0]
-    y = cell[1]
-    position_x = [ x-1, x, x+1]
-    position_y = [ y-1, y, y+1]
+def get_around_cells(cell, size_map):
+    tmp_x = cell[0]
+    tmp_y = cell[1]
+    positions_x = [ tmp_x-1, tmp_x, tmp_x+1]
+    positions_y = [ tmp_y-1, tmp_y, tmp_y+1]
     cells_around = []
-    for x in position_x:
-        for y in position_y:
+    for x in positions_x:
+        for y in positions_y:
             if(x >= 0 and x < size_map and y >= 0 and y < size_map):
                 cells_around.append([x, y])
     return cells_around
         
 
-def get_neighbor(cell, cells_alive, game_setting):
+def get_neighbor(cell, cells_alive, size_map):
     neighbor = 0
-    for tmp_cell in get_around_cell(cell, game_setting["size_map"]):
+    for tmp_cell in get_around_cells(cell, size_map):
         if (cell != tmp_cell and True == (tmp_cell in cells_alive)):
             neighbor+=1
     return neighbor
