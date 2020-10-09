@@ -1,0 +1,17 @@
+name: CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Python
+        run: |
+          apt-get update
+          apt-get install python3.8
+      - name: test app 
+          python3 -m unittest app_test.py
