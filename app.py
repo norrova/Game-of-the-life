@@ -80,7 +80,7 @@ def can_alive(neighbor, rules, alive):
 
 if __name__ == "__main__":
     game_setting = {
-        "size_map" : 5,
+        "size_map" : 40,
         "rules" : {
             "alive": [2, 3],
             "birth": [3]
