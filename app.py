@@ -80,7 +80,7 @@ def can_alive(neighbor, rules, alive):
 
 if __name__ == "__main__":
     game_setting = {
-        "size_map" : 40,
+        "size_map" : 5,
         "rules" : {
             "alive": [2, 3],
             "birth": [3]
@@ -89,12 +89,13 @@ if __name__ == "__main__":
     }
     stop = False
     cells_alive = initialization(game_setting["size_map"])
+    show_map(cells_alive, game_setting["generation"], game_setting["size_map"])
     while (False == stop):
+        cells_alive = evolution(cells_alive, game_setting)
+        game_setting["generation"]+=1
         show_map(cells_alive, game_setting["generation"], game_setting["size_map"])
         try:
             input(f'Generation : {game_setting["generation"]} | Press Enter to continue or crtl+c to quit...')
-            cells_alive = evolution(cells_alive, game_setting)
-            game_setting["generation"]+=1
         except KeyboardInterrupt:
             stop = True
 #endregion
