@@ -94,7 +94,6 @@ if __name__ == "__main__":
         cells_alive = evolution(cells_alive, game_setting)
         game_setting["generation"]+=1
         show_map(cells_alive, game_setting["generation"], game_setting["size_map"])
-        print(cells_alive)
         try:
             input(f'Generation : {game_setting["generation"]} | Press Enter to continue or crtl+c to quit...')
         except KeyboardInterrupt:
