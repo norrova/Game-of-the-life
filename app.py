@@ -19,8 +19,8 @@ def evolution(cells_alive, game_setting):
 
 def show_map(cells_alive, gen, size_map):
     os.system('clear')
-    for index_x in range(size_map):
-        for index_y in range(size_map):
+    for index_y in range(size_map):
+        for index_x in range(size_map):
             state = '\033[92m□' if [index_x, index_y] in cells_alive else '\033[91mx'
             print(state + "\033[0m ", end = '')
         print("")
@@ -94,6 +94,7 @@ if __name__ == "__main__":
         cells_alive = evolution(cells_alive, game_setting)
         game_setting["generation"]+=1
         show_map(cells_alive, game_setting["generation"], game_setting["size_map"])
+        print(cells_alive)
         try:
             input(f'Generation : {game_setting["generation"]} | Press Enter to continue or crtl+c to quit...')
         except KeyboardInterrupt:
