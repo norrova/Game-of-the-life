@@ -15,9 +15,7 @@ def evolution(cells_alive, game_setting):
     for cell in cells_alive:
         for new_cell in get_next_generation(cell, cells_alive, new_cells_alive, game_setting):
             new_cells_alive.append(new_cell)
-    game_setting["generation"]+=1
-    show_map(cells_alive, game_setting["generation"], game_setting["size_map"])
-    evolution(new_cells_alive, game_setting)
+    return new_cells_alive
 
 def show_map(cells_alive, gen, size_map):
     os.system('clear')
@@ -26,10 +24,6 @@ def show_map(cells_alive, gen, size_map):
             state = '\033[92m□' if [index_x, index_y] in cells_alive else '\033[91mx'
             print(state + "\033[0m ", end = '')
         print("")
-    try:
-        input(f'Generation : {gen} | Press Enter to continue or crtl+c to quit...')
-    except KeyboardInterrupt:
-        exit()
 
 #endregion
 
@@ -93,8 +87,14 @@ if __name__ == "__main__":
         },
         "generation" : 1
     }
+    stop = False
     cells_alive = initialization(game_setting["size_map"])
-    show_map(cells_alive, game_setting["generation"], game_setting["size_map"])
-    evolution(cells_alive, game_setting)
-
+    while (False == stop):
+        show_map(cells_alive, game_setting["generation"], game_setting["size_map"])
+        try:
+            input(f'Generation : {game_setting["generation"]} | Press Enter to continue or crtl+c to quit...')
+            cells_alive = evolution(cells_alive, game_setting)
+            game_setting["generation"]+=1
+        except KeyboardInterrupt:
+            stop = True
 #endregion
