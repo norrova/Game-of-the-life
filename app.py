@@ -1,4 +1,5 @@
-import random, os
+import random
+import os
 
 #region Level 1
 def initialization(size_map):
@@ -60,7 +61,7 @@ def get_around_cells(cell, size_map):
             if(x >= 0 and x < size_map and y >= 0 and y < size_map):
                 cells_around.append([x, y])
     return cells_around
-        
+
 def get_neighbor(cell, cells_alive, size_map):
     neighbor = 0
     for tmp_cell in get_around_cells(cell, size_map):
@@ -82,7 +83,7 @@ def can_alive(neighbor, rules, alive):
 
 #region Main
 
-def getInput():
+def get_input():
     stop = None
     try:
         input(f'Generation : {game_setting["generation"]} | Press Enter to continue or crtl+c to quit...')
@@ -103,10 +104,10 @@ if __name__ == "__main__":
     game_setting["size_map"]+=2
     cells_alive = initialization(game_setting["size_map"])
     show_map(cells_alive, game_setting["generation"], game_setting["size_map"])
-    stop = getInput()
-    while (False == stop):
+    stop = get_input()
+    while False == stop:
         cells_alive = evolution(cells_alive, game_setting)
         game_setting["generation"]+=1
         show_map(cells_alive, game_setting["generation"], game_setting["size_map"])
-        stop = getInput()
+        stop = get_input()
 #endregion
