@@ -6,7 +6,7 @@ def initialization(size_map):
     for index_x in range(size_map):
         for index_y in range(size_map):
             cursor = random.randrange(0, 100)
-            if (cursor >=  random.randrange(0, 100)):
+            if cursor >=  random.randrange(0, 100):
                 cells_alive.append([index_x, index_y])
     return cells_alive
 
