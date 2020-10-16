@@ -21,7 +21,7 @@ def show_map(cells_alive, gen, size_map):
     os.system('clear')
     for index_y in range(size_map):
         for index_x in range(size_map):
-            if (index_x > 0  and index_x < size_map - 1 
+            if (index_x > 0  and index_x < size_map - 1
             and index_y > 0 and index_y < size_map - 1):
                 if([index_x, index_y] in cells_alive):
                     state = '\033[92m□'
@@ -37,12 +37,12 @@ def show_map(cells_alive, gen, size_map):
 def get_next_generation(cell, cells_alive, new_cells_alive, game_setting):
     cells_new_gen = []
     for cell_new_gen in  get_around_cells(cell, game_setting["size_map"]):
-        if (False == (cell_new_gen in new_cells_alive)):
+        if False == (cell_new_gen in new_cells_alive):
             # Vérifier nombre de voisins en vie
             neighbor = get_neighbor(cell_new_gen, cells_alive, game_setting["size_map"])
             # Vérifier règles
             alive = can_alive(neighbor, game_setting["rules"], (cell_new_gen in cells_alive))
-            if (alive):
+            if alive:
                 cells_new_gen.append(cell_new_gen)
     return cells_new_gen
 #endregion
@@ -61,7 +61,6 @@ def get_around_cells(cell, size_map):
                 cells_around.append([x, y])
     return cells_around
         
-
 def get_neighbor(cell, cells_alive, size_map):
     neighbor = 0
     for tmp_cell in get_around_cells(cell, size_map):
@@ -74,7 +73,7 @@ def can_alive(neighbor, rules, alive):
     index = 0
     alive = False
     while(False == alive and index < len(numbers)):
-        if(numbers[index] == neighbor):
+        if numbers[index] == neighbor:
             alive = True
         index+=1
     return alive
