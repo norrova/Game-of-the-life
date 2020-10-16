@@ -6,7 +6,7 @@ def initialization(size_map):
     for index_x in range(size_map):
         for index_y in range(size_map):
             cursor = random.randrange(0, 100)
-            if ( cursor >=  random.randrange(0, 100)):
+            if (cursor >=  random.randrange(0, 100)):
                 cells_alive.append([index_x, index_y])
     return cells_alive
 
@@ -24,8 +24,8 @@ def show_map(cells_alive, gen, size_map):
             if (index_x > 0  and index_x < size_map - 1 
             and index_y > 0 and index_y < size_map - 1):
                 if([index_x, index_y] in cells_alive):
-                    state = '\033[92m□' 
-                else : 
+                    state = '\033[92m□'
+                else:
                     state = '\033[91mx'
                 print(state + "\033[0m ", end = '')
         print("")
