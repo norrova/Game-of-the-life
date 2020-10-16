@@ -21,8 +21,13 @@ def show_map(cells_alive, gen, size_map):
     os.system('clear')
     for index_y in range(size_map):
         for index_x in range(size_map):
-            state = '\033[92m□' if [index_x, index_y] in cells_alive else '\033[91mx'
-            print(state + "\033[0m ", end = '')
+            if (index_x > 0  and index_x < size_map - 1 
+            and index_y > 0 and index_y < size_map - 1):
+                if([index_x, index_y] in cells_alive):
+                    state = '\033[92m□' 
+                else : 
+                    state = '\033[91mx'
+                print(state + "\033[0m ", end = '')
         print("")
 
 #endregion
@@ -78,24 +83,31 @@ def can_alive(neighbor, rules, alive):
 
 #region Main
 
+def getInput():
+    stop = None
+    try:
+        input(f'Generation : {game_setting["generation"]} | Press Enter to continue or crtl+c to quit...')
+        stop = False
+    except KeyboardInterrupt:
+        stop = True
+    return stop
+
 if __name__ == "__main__":
     game_setting = {
-        "size_map" : 40,
+        "size_map" : 10,
         "rules" : {
             "alive": [2, 3],
             "birth": [3]
         },
         "generation" : 1
     }
-    stop = False
+    game_setting["size_map"]+=2
     cells_alive = initialization(game_setting["size_map"])
     show_map(cells_alive, game_setting["generation"], game_setting["size_map"])
+    stop = getInput()
     while (False == stop):
         cells_alive = evolution(cells_alive, game_setting)
         game_setting["generation"]+=1
         show_map(cells_alive, game_setting["generation"], game_setting["size_map"])
-        try:
-            input(f'Generation : {game_setting["generation"]} | Press Enter to continue or crtl+c to quit...')
-        except KeyboardInterrupt:
-            stop = True
+        stop = getInput()
 #endregion
