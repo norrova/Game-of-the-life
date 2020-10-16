@@ -4,7 +4,12 @@ jobs:
     name: Python linter
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install Pip
-        run: apt-get install python3-pip
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+          architecture: 'x64'
+      - run: |
+          pip install pylint
+          pylint ./*.py
+        
