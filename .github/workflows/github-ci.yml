@@ -22,5 +22,5 @@ jobs:
             python-version: '3.8'
             architecture: 'x64'
         - run: |
-            python -m unittest  ./*.py
+            python -m unittest app_test.py
         
